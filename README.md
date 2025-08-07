@@ -109,52 +109,51 @@ This project presents a complete analysis of a pizza sales dataset using SQL. Th
        ```
 
 15. **Query the Top 7 Pizza Names by Revenue**  
-        ```sql
+ ```sql
        SELECT * FROM(
-  SELECT *,Rank() OVER(Order by revenue DESC) as Rnk FROM(
-  SELECT Name,SUM(price * quantity) as revenue,SUM(quantity) FROM pizza_types A JOIN pizzas B
-  ON A.pizza_type_id=B.pizza_type_id JOIN pizza_order_details C ON C.pizza_id= B.pizza_id
-  GROUP BY Name)A)B
-  Where Rnk<=7;
-  ;
-        ```
+      SELECT *,Rank() OVER(Order by revenue DESC) as Rnk FROM(
+      SELECT Name,SUM(price * quantity) as revenue,SUM(quantity) FROM pizza_types A JOIN pizzas B
+      ON A.pizza_type_id=B.pizza_type_id JOIN pizza_order_details C ON C.pizza_id= B.pizza_id
+     GROUP BY Name)A)B
+      Where Rnk<=7;
+  
+ ```
 
 17. **Query the Percentage Contribution of Each Pizza Category to Total Revenue**  
       ```sql
       SELECT category,ROUND(SUM(price*quantity)/
-   (SELECT SUM(price*quantity) FROM pizzas A JOIN pizza_order_details B ON  A.pizza_id=B.pizza_id)*100,2)
-   REVENUE_PCT  FROM pizza_types A JOIN pizzas B ON 
-   A.pizza_type_id=B.pizza_type_id JOIN pizza_order_details C ON C.pizza_id=B.pizza_id
-   GROUP BY category;
-        ```
+      (SELECT SUM(price*quantity) FROM pizzas A JOIN pizza_order_details B ON  A.pizza_id=B.pizza_id)*100,2)
+      REVENUE_PCT  FROM pizza_types A JOIN pizzas B ON 
+       A.pizza_type_id=B.pizza_type_id JOIN pizza_order_details C ON C.pizza_id=B.pizza_id
+       GROUP BY category;
+     ```
 
 18. **Analyze the Cumulative Revenue Generated Over Time**  
       ```sql
       SELECT 
-  A.date,SUM(B.quantity * C.price) AS daily_revenue,
-SUM(SUM(B.quantity * C.price)) OVER (ORDER BY A.date) AS cumulative_revenue
-FROM pizza_orders A
-JOIN pizza_order_details B ON A.order_id = B.order_id
-JOIN pizzas C ON B.pizza_id = C.pizza_id
-GROUP BY A.date
-ORDER BY A.date;
+      A.date,SUM(B.quantity * C.price) AS daily_revenue,
+      SUM(SUM(B.quantity * C.price)) OVER (ORDER BY A.date) AS cumulative_revenue
+      FROM pizza_orders A
+       JOIN pizza_order_details B ON A.order_id = B.order_id
+      JOIN pizzas C ON B.pizza_id = C.pizza_id
+      GROUP BY A.date
+      ORDER BY A.date;
       
-        ```
+     ```
 
 19. **Determine the Top 3 Most Ordered Pizza Types Based on Revenue for Each Category**  
       ```sql
-      SELECT * FROM (
-    SELECT *, RANK() OVER (PARTITION BY category ORDER BY revenue DESC) AS rnk FROM (
+        SELECT * FROM (
+       SELECT *, RANK() OVER (PARTITION BY category ORDER BY revenue DESC) AS rnk FROM (
         SELECT a.pizza_type_id AS pizza_type, category, SUM(price * quantity) AS revenue 
         FROM pizza_types a 
         JOIN pizzas b ON a.pizza_type_id = b.pizza_type_id
         JOIN pizza_order_details c ON c.pizza_id = b.pizza_id
         GROUP BY a.pizza_type_id, category
-    ) a
-) b
-WHERE rnk <= 3;
-
-        ```
+          ) a
+        ) b
+    WHERE rnk <= 3;
+```
 
 ---
 
