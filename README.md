@@ -1,5 +1,6 @@
 # 🍕 Pizza Sales Data Analysis using SQL
-![pablo-pacheco-D3Mag4BKqns-unsplash](https://github.com/user-attachments/assets/6afcc134-3afc-455d-a548-922ddb48de4c)
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/67f0e91a-2f2a-4d1e-91d8-8d23ca73e5b0" />
+
 
 
 ## 📊 Overview
